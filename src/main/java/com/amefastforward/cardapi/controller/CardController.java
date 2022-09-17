@@ -1,5 +1,6 @@
 package com.amefastforward.cardapi.controller;
 
+import com.amefastforward.cardapi.controller.request.CreateCardRequest;
 import com.amefastforward.cardapi.model.Card;
 import com.amefastforward.cardapi.service.CardService;
 import org.slf4j.LoggerFactory;
@@ -36,7 +37,10 @@ public class CardController {
     @GetMapping("{id}")
     public Card findCardById(@PathVariable("id") int id) {
 
-        LOG.info ("Iniciando busca pelo card com id [{}]", id);
+
+        LOG.info("Iniciando busca pelo card com id");
+
+
         var card = cardService.findById(id);
 
         if (card.isPresent()) {
@@ -45,5 +49,9 @@ public class CardController {
 
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Card não encontrado");
     }
-
+    @PostMapping
+    public Card createCard(@RequestBody CreateCardRequest createCardRequest) throws Exception{
+        LOG.info("Iniciando criacao de card com nome [{}]", createCardRequest.getName());
+        return cardService.createCard(createCardRequest);
+    }
 }
