@@ -15,11 +15,11 @@ public class CardService {
     private final CardRepository cardRepository;
 
     @Autowired
-    public CardService(CardRepository cardRepository){
+    public CardService(CardRepository cardRepository) {
         this.cardRepository = cardRepository;
     }
 
-    public Optional<Card> findById(int id){
+    public Optional<Card> findById(int id) {
         return cardRepository.findById(id);
 
     }

@@ -2,12 +2,14 @@ package com.amefastforward.cardapi.impl;
 
 import com.amefastforward.cardapi.model.Card;
 import com.amefastforward.cardapi.repository.CardRepository;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Component
 public class CardRepositoryImpl implements CardRepository {
 
     private final List<Card> cards;
