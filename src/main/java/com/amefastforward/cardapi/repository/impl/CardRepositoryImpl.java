@@ -1,4 +1,4 @@
-package com.amefastforward.cardapi.impl;
+package com.amefastforward.cardapi.repository.impl;
 
 import com.amefastforward.cardapi.model.Card;
 import com.amefastforward.cardapi.repository.CardRepository;

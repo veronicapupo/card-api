@@ -1,6 +1,6 @@
 package com.amefastforward.cardapi.model;
 
-import java.time.LocalDate;
+
 import java.time.LocalDateTime;
 
 public class Card {
