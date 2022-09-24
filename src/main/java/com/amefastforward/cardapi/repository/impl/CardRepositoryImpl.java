@@ -1,57 +1,69 @@
 package com.amefastforward.cardapi.repository.impl;
 
+
 import com.amefastforward.cardapi.model.Card;
 import com.amefastforward.cardapi.repository.CardRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Optional;
 
 @Component
 public class CardRepositoryImpl implements CardRepository {
+      private static final Logger LOG = LoggerFactory.getLogger(CardRepositoryImpl.class);
+    private final ConnectionFactory connectionFactory;
 
-    private final List<Card> cards;
+    @Autowired
+    public CardRepositoryImpl(ConnectionFactory connectionFactory) {
+        this.connectionFactory = connectionFactory;
 
-    public CardRepositoryImpl() {
-       cards = new ArrayList<>();
 
-       var card =new Card();
-       card.setId(1);
-       card.setName("Iron Man");
-       card.setDescription("Tony Stark");
-       card.setStrenght(5);
-       card.setSpeed(5);
-       card.setSkill(7);
-       card.setGear(6);
-       card.setIntellect(7);
-       card.setImageUrl("url_image_iron_man");
-       card.setCreatedAt(LocalDateTime.now());
-       card.setUpdatedAt(LocalDateTime.now());
-
-       cards.add(card);
-    }
+  }
 
     @Override
     public Optional<Card> findById(int id) {
 
-        return cards.stream().filter(card -> card.getId() == id).findFirst();
+       String query = "SELECT * FROM card WHERE id = ?";
 
+       try(Connection connection = connectionFactory.getConnection()){
+           try(PreparedStatement statement = connection.prepareStatement(query)){
+               statement.setInt(1,id);
+               statement.execute();
+
+               ResultSet resultSet = statement.getResultSet();
+               if (resultSet.next()){
+                   Card card = new Card();
+                   card.setId(resultSet.getInt("id"));
+                   card.setName(resultSet.getString("name"));
+                   card.setDescription(resultSet.getString("description"));
+                   card.setImageUrl(resultSet.getString("imageUrl"));
+                   card.setStrenght(resultSet.getInt("strenght"));
+                   card.setSpeed(resultSet.getInt("speed"));
+                   card.setSkill(resultSet.getInt("skill"));
+                   card.setGear(resultSet.getInt("gear"));
+                   card.setIntellect(resultSet.getInt("intellect"));
+                   card.setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime());
+                   card.setUpdatedAt(resultSet.getTimestamp("updated").toLocalDateTime());
+                   return Optional.of(card);
+               }
+           }
+
+       } catch(SQLException e) {
+           LOG.error("{}", e.getMessage());
+
+       }
+       return Optional.empty();
     }
 
     @Override
     public Card save(Card card) throws Exception {
-        var cardFound = cards.stream()
-                .filter(cardInList -> cardInList.getName().equals(card.getName()))
-                        .findFirst();
-
-        if (cardFound.isPresent()){
-            throw new Exception("Nome [" + card.getName() + "]");
-        }
-
-        card.setId(cards.size() + 1);
-        cards.add(card);
-        return card;
+        return null;
     }
+
 }

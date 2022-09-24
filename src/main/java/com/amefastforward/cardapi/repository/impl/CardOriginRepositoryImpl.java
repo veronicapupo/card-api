@@ -1,6 +1,7 @@
 package com.amefastforward.cardapi.repository.impl;
 
 
+import com.amefastforward.cardapi.exception.InvalidEntityException;
 import com.amefastforward.cardapi.model.CardOrigin;
 import com.amefastforward.cardapi.repository.CardOriginRepository;
 
@@ -31,7 +32,7 @@ public class CardOriginRepositoryImpl implements CardOriginRepository {
                 .findFirst();
 
         if(cardOriginFound.isPresent()) {
-           // throw new InvalidEntityException("Card origin name [" + cardOrigin.getName() + "] already stored");
+           throw new InvalidEntityException("Card origin name [" + cardOrigin.getName() + "] already stored");
         }
 
         cardOrigin.setId(cardOrigins.size() + 1);
