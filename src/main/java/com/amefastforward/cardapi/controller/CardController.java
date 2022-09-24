@@ -1,6 +1,7 @@
 package com.amefastforward.cardapi.controller;
 
 import com.amefastforward.cardapi.controller.request.CreateCardRequest;
+import com.amefastforward.cardapi.controller.request.UpdateCardRequest;
 import com.amefastforward.cardapi.model.Card;
 import com.amefastforward.cardapi.service.CardService;
 import org.slf4j.Logger;
@@ -35,7 +36,7 @@ public class CardController {
         LOG.info("Iniciando busca pelo card com id [{}]", id);
         return cardService.findById(id);
 
-        }
+    }
 
     @PostMapping
     public Card createCard(@RequestBody CreateCardRequest createCardRequest) throws Exception {
@@ -48,5 +49,11 @@ public class CardController {
     public void deleteCard(@PathVariable("id") long id) {
         LOG.info("Deletando card com id [{}]", id);
         cardService.deleteCard(id);
+    }
+
+    @PutMapping("{id}")
+    public Card updateCard(@PathVariable("id") long id, @RequestBody UpdateCardRequest updateCardRequest) {
+        LOG.info("Atualizando card com id [{}]", id);
+        return cardService.update(id, updateCardRequest);
     }
 }
