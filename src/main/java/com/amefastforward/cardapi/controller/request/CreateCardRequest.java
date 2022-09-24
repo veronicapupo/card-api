@@ -11,6 +11,16 @@ public class CreateCardRequest {
     private int intellect;
     private String imageUrl;
 
+    private long originId;
+
+    public long getOriginId() {
+        return originId;
+    }
+
+    public void setOriginId(long originId) {
+        this.originId = originId;
+    }
+
     public String getName() {
         return name;
     }
@@ -86,6 +96,7 @@ public class CreateCardRequest {
                 ", gear=" + gear +
                 ", intellect=" + intellect +
                 ", imageUrl='" + imageUrl + '\'' +
+                ", originId=" + originId +
                 '}';
     }
 }

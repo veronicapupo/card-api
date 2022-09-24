@@ -5,6 +5,7 @@ import com.amefastforward.cardapi.model.CardOrigin;
 import com.amefastforward.cardapi.service.CardOriginService;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 
@@ -29,5 +30,11 @@ public class CardOriginController {
     @PostMapping
     public CardOrigin createCardOrigin(@RequestBody CreateCardOriginRequest createCardOriginRequest) {
         return cardOriginService.createCardOrigin(createCardOriginRequest);
+    }
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @DeleteMapping("{id}")
+    public void deleteCard(@PathVariable("id") long id) {
+        LOG.info("Deletando card com id [{}]", id);
+        cardOriginService.deleteCard(id);
     }
 }

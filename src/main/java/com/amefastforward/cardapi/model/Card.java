@@ -1,11 +1,14 @@
 package com.amefastforward.cardapi.model;
 
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
-
+@Entity
 public class Card {
 
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
     private String name;
     private String description;
     private int strenght;
@@ -17,11 +20,23 @@ public class Card {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public int getId() {
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "origin_id")
+    private CardOrigin origin;
+
+    public CardOrigin getOrigin() {
+        return origin;
+    }
+
+    public void setOrigin(CardOrigin origin) {
+        this.origin = origin;
+    }
+
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

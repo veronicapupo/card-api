@@ -7,13 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
@@ -39,18 +33,20 @@ public class CardController {
     @GetMapping("{id}")
     public Card findCardById(@PathVariable("id") int id) {
         LOG.info("Iniciando busca pelo card com id [{}]", id);
-        var card = cardService.findById(id);
+        return cardService.findById(id);
 
-        if (card.isPresent()) {
-            return card.get();
         }
-
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Card não encontrado");
-    }
 
     @PostMapping
     public Card createCard(@RequestBody CreateCardRequest createCardRequest) throws Exception {
         LOG.info("Iniciando criacao de Card com nome [{}]", createCardRequest.getName());
         return cardService.createCard(createCardRequest);
+    }
+
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @DeleteMapping("{id}")
+    public void deleteCard(@PathVariable("id") long id) {
+        LOG.info("Deletando card com id [{}]", id);
+        cardService.deleteCard(id);
     }
 }

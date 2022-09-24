@@ -18,7 +18,7 @@ public class CardOriginService {
 
         this.cardOriginRepository = cardOriginRepository;
     }
-    public CardOrigin findById(int id) {
+    public CardOrigin findById(long id) {
         return this.cardOriginRepository.findById(id)
                .orElseThrow(() -> new RuntimeException("Card origin id [" + id + "] not found."));
     }
@@ -34,5 +34,9 @@ public class CardOriginService {
         cardOrigin.setUpdatedAt(LocalDateTime.now());
 
         return cardOriginRepository.save(cardOrigin);
+    }
+    public void deleteCard(long id){
+        var card = findById(id);
+        cardOriginRepository.delete(card);
     }
 }
