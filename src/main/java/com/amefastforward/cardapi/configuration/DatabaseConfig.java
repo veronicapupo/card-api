@@ -5,14 +5,15 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class DatabaseConfig {
+
     @Value("${database.url}")
     private String url;
 
     @Value("${database.username}")
     private String username;
 
-    @Value("${database.passoword}")
-    private String passoword;
+    @Value("${database.password}")
+    private String password;
 
     public String getUrl() {
         return url;
@@ -22,7 +23,7 @@ public class DatabaseConfig {
         return username;
     }
 
-    public String getPassoword() {
-        return passoword;
+    public String getPassword() {
+        return password;
     }
 }
